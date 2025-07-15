@@ -19,6 +19,7 @@ function App() {
   // Filter state
   const [filterYear, setFilterYear] = useState<string>('All');
   const [filterSemester, setFilterSemester] = useState<string>('All');
+  const [showGradingTable, setShowGradingTable] = useState(false);
 
   // Load courses from localStorage on component mount
   useEffect(() => {
@@ -198,6 +199,46 @@ function App() {
           </div>
         </div>
       </main>
+      
+      {/* Grading Table */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 align-middle text-center">
+        <button
+          onClick={() => setShowGradingTable(prev => !prev)}
+          className="text-blue-600 font-medium hover:underline focus:outline-none"
+        >
+          {showGradingTable ? 'Hide Grading Table ▲' : 'Show Grading Table ▼'}
+        </button>
+
+        {showGradingTable && (
+          <div className="mt-8 overflow-x-auto">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2 text-center">NSU Grading Policy</h2>
+            <table className="min-w-full border border-gray-300 text-sm text-center">
+              <thead className="bg-gray-100 text-gray-700">
+                <tr>
+                  <th className="border px-4 py-2">Scores</th>
+                  <th className="border px-4 py-2">Grade</th>
+                  <th className="border px-4 py-2">Points</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-600">
+                <tr><td className="border px-4 py-2">93+</td><td className="border px-4 py-2">A Excellent</td><td className="border px-4 py-2">4.0</td></tr>
+                <tr><td className="border px-4 py-2">90 - 92</td><td className="border px-4 py-2">A-</td><td className="border px-4 py-2">3.7</td></tr>
+                <tr><td className="border px-4 py-2">87 - 89</td><td className="border px-4 py-2">B+</td><td className="border px-4 py-2">3.3</td></tr>
+                <tr><td className="border px-4 py-2">83 - 86</td><td className="border px-4 py-2">B Good</td><td className="border px-4 py-2">3.0</td></tr>
+                <tr><td className="border px-4 py-2">80 - 82</td><td className="border px-4 py-2">B-</td><td className="border px-4 py-2">2.7</td></tr>
+                <tr><td className="border px-4 py-2">77 - 79</td><td className="border px-4 py-2">C+</td><td className="border px-4 py-2">2.3</td></tr>
+                <tr><td className="border px-4 py-2">73 - 76</td><td className="border px-4 py-2">C Average</td><td className="border px-4 py-2">2.0</td></tr>
+                <tr><td className="border px-4 py-2">70 - 72</td><td className="border px-4 py-2">C-</td><td className="border px-4 py-2">1.7</td></tr>
+                <tr><td className="border px-4 py-2">67 - 69</td><td className="border px-4 py-2">D+</td><td className="border px-4 py-2">1.3</td></tr>
+                <tr><td className="border px-4 py-2">60 - 66</td><td className="border px-4 py-2">D Poor</td><td className="border px-4 py-2">1.0</td></tr>
+                <tr><td className="border px-4 py-2">Below 60</td><td className="border px-4 py-2">F* Failure</td><td className="border px-4 py-2">0.0</td></tr>
+                <tr><td className="border px-4 py-2">—</td><td className="border px-4 py-2">I** Incomplete</td><td className="border px-4 py-2">0.0</td></tr>
+                <tr><td className="border px-4 py-2">—</td><td className="border px-4 py-2">W** Withdrawal</td><td className="border px-4 py-2">0.0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-200 mt-16">
@@ -206,10 +247,7 @@ function App() {
             <p className="text-sm">
               Built for North South University students • Follows NSU grading system
             </p>
-            <p className="text-xs mt-1 text-gray-500">
-              Grade Scale: A(4.0), A-(3.7), B+(3.3), B(3.0), B-(2.7), C+(2.3), C(2.0), C-(1.7), D+(1.3), D(1.0), F(0.0)
-            </p>
-            <p className="text-xs mt-2 text-gray-400">
+            <p className="text-xs mt-1 text-gray-400">
               Powered by students of NSU • <a href="https://github.com/tyroruyk" target="_blank" rel="noopener noreferrer" className="underline">@tyroruyk</a>
             </p>
           </div>
