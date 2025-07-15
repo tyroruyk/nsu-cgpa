@@ -2,8 +2,6 @@
 
 A user-friendly **CGPA calculator** built specifically for **North South University (NSU)** students. Easily add your courses, track your semester-wise progress, and calculate your cumulative GPA with accuracy—all based on NSU’s official grading scale.
 
----
-
 ## Features
 
 * **Add, edit, and delete courses** with detailed info: course name, credit hours, year, semester, and grade.
@@ -16,16 +14,12 @@ A user-friendly **CGPA calculator** built specifically for **North South Univers
 * Inputs for student name and ID to personalize your data.
 * Visual stats displaying total courses and semesters taken.
 
----
-
 ## Tech Stack
 
 * React with TypeScript
 * Tailwind CSS for styling
 * Lucide-react for clean icons
 * LocalStorage for data persistence
-
----
 
 ## NSU Grading Scale
 
@@ -43,8 +37,6 @@ A user-friendly **CGPA calculator** built specifically for **North South Univers
 | D     | 1.0 |
 | F     | 0.0 |
 
----
-
 ## Usage
 
 * Add your courses with relevant details using the form.
@@ -53,19 +45,13 @@ A user-friendly **CGPA calculator** built specifically for **North South Univers
 * Manage your data: export your progress or import previous records.
 * Save your student name and ID for personalized records.
 
----
-
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests to improve this project.
 
----
-
 ## License
 
 MIT License
-
----
 
 ## Author
 
