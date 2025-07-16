@@ -294,7 +294,9 @@ function App() {
 
         {showGradingTable && (
           <div className="mt-8 overflow-x-auto">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2 text-center">NSU Grading Policy</h2>
+            <h2 className="text-lg font-bold text-white mb-4 text-center px-4 py-2 rounded-md bg-gradient-to-r from-blue-600 to-indigo-700 shadow-md">
+              NSU Grading Policy
+            </h2>
             <table className="min-w-full border border-gray-300 text-sm text-center">
               <thead className="bg-gray-200 text-gray-900">
                 <tr>
