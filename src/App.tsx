@@ -10,7 +10,8 @@ import { calculateCGPA, groupCoursesBySemester } from './utils/calculations';
 import { SEMESTERS } from './utils/gradeSystem';
 
 const STORAGE_KEY = 'nsu-cgpa-courses';
-
+const STORAGE_NAME_KEY = 'nsu-cgpa-name';
+const STORAGE_ID_KEY = 'nsu-cgpa-id';
 
 function App() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -67,6 +68,30 @@ function App() {
     const semesterMatch = filterSemester === 'All' || course.semester === filterSemester;
     return yearMatch && semesterMatch;
   });
+
+  useEffect(() => {
+    const savedCourses = localStorage.getItem(STORAGE_KEY);
+    const savedName = localStorage.getItem(STORAGE_NAME_KEY);
+    const savedId = localStorage.getItem(STORAGE_ID_KEY);
+
+    if (savedCourses) {
+      try {
+        setCourses(JSON.parse(savedCourses));
+      } catch (error) {
+        console.error('Failed to parse saved courses:', error);
+      }
+    }
+    if (savedName) setName(savedName);
+    if (savedId) setStudentId(savedId);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_NAME_KEY, name);
+  }, [name]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_ID_KEY, studentId);
+  }, [studentId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50">

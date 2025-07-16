@@ -81,9 +81,11 @@ export const DataManagement: React.FC<DataManagementProps> = ({
         // Set name and studentId if present in imported JSON
         if (jsonData.name) {
           setName(jsonData.name);
+          localStorage.setItem('nsu-cgpa-name', jsonData.name);
         }
         if (jsonData.studentId) {
           setStudentId(jsonData.studentId);
+          localStorage.setItem('nsu-cgpa-id', jsonData.studentId);
         }
 
         setMessage({ type: 'success', text: 'Data imported successfully!' });

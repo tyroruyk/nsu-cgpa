@@ -10,6 +10,15 @@ interface GpaDisplayProps {
   semesters: SemesterData[];
 }
 
+const getGpaCommentStyle = (cgpa: number) => {
+  if (cgpa === 0) return 'from-gray-400 to-gray-500';
+  if (cgpa < 2) return 'from-red-500 to-red-700';
+  if (cgpa < 2.5) return 'from-yellow-400 to-yellow-600';
+  if (cgpa < 3) return 'from-blue-400 to-blue-600';
+  if (cgpa < 3.5) return 'from-green-400 to-green-600';
+  return 'from-emerald-500 to-emerald-700';
+};
+
 export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, semesters }) => {
   return (
     <div className="space-y-6">
@@ -32,6 +41,27 @@ export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, seme
             </div>
           </div>
         </div>
+      </div>
+
+      {/* CGPA Comment Card */}
+      <div
+        className={`bg-gradient-to-r ${getGpaCommentStyle(cgpa)} text-white p-4 rounded-lg shadow-md`}
+      >
+        <p className="text-sm font-medium">
+          {cgpa === 0 ? (
+            <span>No GPA recorded yet. Start your academic journey!</span>
+          ) : cgpa < 2 ? (
+            <span>⚠️ On Probation – You need to improve your GPA to avoid academic penalties.</span>
+          ) : cgpa < 2.5 ? (
+            <span>Needs Improvement – Consider focusing more on core subjects.</span>
+          ) : cgpa < 3 ? (
+            <span>Fair – You're doing okay, but there's room to grow.</span>
+          ) : cgpa < 3.5 ? (
+            <span>Good – Keep up the steady performance!</span>
+          ) : (
+            <span>🎉 Excellent – Great academic standing!</span>
+          )}
+        </p>
       </div>
 
       {/* Semester Breakdown */}
