@@ -33,7 +33,7 @@ export const DataManagement: React.FC<DataManagementProps> = ({
       courses,
       cgpa,
       totalCredits,
-      semesters: [], // This will be calculated on import
+      semesters: [],
     };
 
     const dataStr = JSON.stringify(academicData, null, 2);
@@ -77,6 +77,9 @@ export const DataManagement: React.FC<DataManagementProps> = ({
         }
 
         onImportData(jsonData.courses);
+
+        // Save courses to localStorage if present in imported JSON
+        localStorage.setItem('nsu-cgpa-courses', JSON.stringify(jsonData.courses));
 
         // Set name and studentId if present in imported JSON
         if (jsonData.name) {
