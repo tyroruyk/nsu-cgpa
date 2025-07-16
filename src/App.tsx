@@ -22,18 +22,6 @@ function App() {
   const [filterSemester, setFilterSemester] = useState<string>('All');
   const [showGradingTable, setShowGradingTable] = useState(false);
 
-  // Load courses from localStorage on component mount
-  useEffect(() => {
-    const savedCourses = localStorage.getItem(STORAGE_KEY);
-    if (savedCourses) {
-      try {
-        setCourses(JSON.parse(savedCourses));
-      } catch (error) {
-        console.error('Failed to parse saved courses:', error);
-      }
-    }
-  }, []);
-
   // Save courses to localStorage whenever courses change
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
