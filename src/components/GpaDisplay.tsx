@@ -48,7 +48,7 @@ export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, seme
         className={`bg-gradient-to-r ${getGpaCommentStyle(cgpa)} text-white p-4 rounded-lg shadow-md`}
       >
         <p className="text-sm font-medium">
-          {cgpa === 0 ? (
+          {semesters.length === 0 && cgpa === 0 ? (
             <span>No GPA recorded yet. Start your academic journey!</span>
           ) : cgpa < 2 ? (
             <span>⚠️ On Probation – You need to improve your GPA to avoid academic penalties.</span>
