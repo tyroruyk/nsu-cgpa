@@ -296,27 +296,27 @@ function App() {
           <div className="mt-8 overflow-x-auto">
             <h2 className="text-lg font-semibold text-gray-800 mb-2 text-center">NSU Grading Policy</h2>
             <table className="min-w-full border border-gray-300 text-sm text-center">
-              <thead className="bg-gray-100 text-gray-700">
+              <thead className="bg-gray-200 text-gray-900">
                 <tr>
                   <th className="border px-4 py-2">Scores</th>
                   <th className="border px-4 py-2">Grade</th>
                   <th className="border px-4 py-2">Points</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-600">
-                <tr><td className="border px-4 py-2">93+</td><td className="border px-4 py-2">A Excellent</td><td className="border px-4 py-2">4.0</td></tr>
-                <tr><td className="border px-4 py-2">90 - 92</td><td className="border px-4 py-2">A-</td><td className="border px-4 py-2">3.7</td></tr>
-                <tr><td className="border px-4 py-2">87 - 89</td><td className="border px-4 py-2">B+</td><td className="border px-4 py-2">3.3</td></tr>
-                <tr><td className="border px-4 py-2">83 - 86</td><td className="border px-4 py-2">B Good</td><td className="border px-4 py-2">3.0</td></tr>
-                <tr><td className="border px-4 py-2">80 - 82</td><td className="border px-4 py-2">B-</td><td className="border px-4 py-2">2.7</td></tr>
-                <tr><td className="border px-4 py-2">77 - 79</td><td className="border px-4 py-2">C+</td><td className="border px-4 py-2">2.3</td></tr>
-                <tr><td className="border px-4 py-2">73 - 76</td><td className="border px-4 py-2">C Average</td><td className="border px-4 py-2">2.0</td></tr>
-                <tr><td className="border px-4 py-2">70 - 72</td><td className="border px-4 py-2">C-</td><td className="border px-4 py-2">1.7</td></tr>
-                <tr><td className="border px-4 py-2">67 - 69</td><td className="border px-4 py-2">D+</td><td className="border px-4 py-2">1.3</td></tr>
-                <tr><td className="border px-4 py-2">60 - 66</td><td className="border px-4 py-2">D Poor</td><td className="border px-4 py-2">1.0</td></tr>
-                <tr><td className="border px-4 py-2">Below 60</td><td className="border px-4 py-2">F* Failure</td><td className="border px-4 py-2">0.0</td></tr>
-                <tr><td className="border px-4 py-2">—</td><td className="border px-4 py-2">I** Incomplete</td><td className="border px-4 py-2">0.0</td></tr>
-                <tr><td className="border px-4 py-2">—</td><td className="border px-4 py-2">W** Withdrawal</td><td className="border px-4 py-2">0.0</td></tr>
+              <tbody>
+                <tr className="bg-green-100 text-green-900 font-semibold"><td className="border px-4 py-2">93+</td><td className="border px-4 py-2">A Excellent</td><td className="border px-4 py-2">4.0</td></tr>
+                <tr className="bg-green-50 text-green-800"><td className="border px-4 py-2">90 - 92</td><td className="border px-4 py-2">A-</td><td className="border px-4 py-2">3.7</td></tr>
+                <tr className="bg-lime-100 text-lime-900"><td className="border px-4 py-2">87 - 89</td><td className="border px-4 py-2">B+</td><td className="border px-4 py-2">3.3</td></tr>
+                <tr className="bg-lime-50 text-lime-800"><td className="border px-4 py-2">83 - 86</td><td className="border px-4 py-2">B Good</td><td className="border px-4 py-2">3.0</td></tr>
+                <tr className="bg-yellow-100 text-yellow-900"><td className="border px-4 py-2">80 - 82</td><td className="border px-4 py-2">B-</td><td className="border px-4 py-2">2.7</td></tr>
+                <tr className="bg-yellow-50 text-yellow-800"><td className="border px-4 py-2">77 - 79</td><td className="border px-4 py-2">C+</td><td className="border px-4 py-2">2.3</td></tr>
+                <tr className="bg-orange-100 text-orange-900"><td className="border px-4 py-2">73 - 76</td><td className="border px-4 py-2">C Average</td><td className="border px-4 py-2">2.0</td></tr>
+                <tr className="bg-orange-50 text-orange-800"><td className="border px-4 py-2">70 - 72</td><td className="border px-4 py-2">C-</td><td className="border px-4 py-2">1.7</td></tr>
+                <tr className="bg-red-100 text-red-900"><td className="border px-4 py-2">67 - 69</td><td className="border px-4 py-2">D+</td><td className="border px-4 py-2">1.3</td></tr>
+                <tr className="bg-red-50 text-red-800"><td className="border px-4 py-2">60 - 66</td><td className="border px-4 py-2">D Poor</td><td className="border px-4 py-2">1.0</td></tr>
+                <tr className="bg-gray-300 text-gray-800 font-semibold"><td className="border px-4 py-2">Below 60</td><td className="border px-4 py-2">F* Failure</td><td className="border px-4 py-2">0.0</td></tr>
+                <tr className="bg-gray-100 text-gray-700"><td className="border px-4 py-2">—</td><td className="border px-4 py-2">I** Incomplete</td><td className="border px-4 py-2">0.0</td></tr>
+                <tr className="bg-gray-100 text-gray-700"><td className="border px-4 py-2">—</td><td className="border px-4 py-2">W** Withdrawal</td><td className="border px-4 py-2">0.0</td></tr>
               </tbody>
             </table>
           </div>
