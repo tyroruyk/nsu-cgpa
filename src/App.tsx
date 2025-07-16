@@ -12,12 +12,16 @@ import { SEMESTERS } from './utils/gradeSystem';
 const STORAGE_KEY = 'nsu-cgpa-courses';
 const STORAGE_NAME_KEY = 'nsu-cgpa-name';
 const STORAGE_ID_KEY = 'nsu-cgpa-id';
+const STORAGE_PREV_CGPA = 'nsu-cgpa-prev-cgpa';
+const STORAGE_PREV_CREDITS = 'nsu-cgpa-prev-credits';
 
 function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [name, setName] = useState('');
   const [studentId, setStudentId] = useState('');
-  const [isDataLoaded, setIsDataLoaded] = useState(false); // Add this flag
+  const [prevCgpa, setPrevCgpa] = useState('');
+  const [prevCredits, setPrevCredits] = useState('');
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   
   // Filter state
   const [filterYear, setFilterYear] = useState<string>('All');
@@ -40,6 +44,11 @@ function App() {
     }
     if (savedName) setName(savedName);
     if (savedId) setStudentId(savedId);
+    
+    const savedPrevCgpa = localStorage.getItem(STORAGE_PREV_CGPA);
+    const savedPrevCredits = localStorage.getItem(STORAGE_PREV_CREDITS);
+    if (savedPrevCgpa) setPrevCgpa(savedPrevCgpa);
+    if (savedPrevCredits) setPrevCredits(savedPrevCredits);
     
     setIsDataLoaded(true); // Mark data as loaded
   }, []);
@@ -64,6 +73,14 @@ function App() {
     }
   }, [studentId, isDataLoaded]);
 
+  useEffect(() => {
+    if (isDataLoaded) localStorage.setItem(STORAGE_PREV_CGPA, prevCgpa);
+  }, [prevCgpa, isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded) localStorage.setItem(STORAGE_PREV_CREDITS, prevCredits);
+  }, [prevCredits, isDataLoaded]);
+
   const addCourse = (courseData: Omit<Course, 'id'>) => {
     const newCourse: Course = {
       ...courseData,
@@ -80,7 +97,7 @@ function App() {
     setCourses(importedCourses);
   };
 
-  const cgpa = calculateCGPA(courses);
+  const cgpa = calculateCGPA(courses, Number(prevCgpa), Number(prevCredits));
   const totalCredits = courses.reduce((sum, course) => sum + course.creditHour, 0);
   const semesters = groupCoursesBySemester(courses);
 
@@ -139,6 +156,31 @@ function App() {
                 onChange={e => setStudentId(e.target.value)}
                 className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border-gray-300"
                 placeholder="Your Student ID"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Previous CGPA</label>
+              <input
+                type="number"
+                value={prevCgpa}
+                onChange={e => setPrevCgpa(e.target.value)}
+                step="0.01"
+                min="0"
+                max="4"
+                className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border-gray-300"
+                placeholder="e.g. 3.25"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Previous Credits</label>
+              <input
+                type="number"
+                value={prevCredits}
+                onChange={e => setPrevCredits(e.target.value)}
+                step="1"
+                min="0"
+                className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border-gray-300"
+                placeholder="e.g. 60"
               />
             </div>
           </div>
@@ -201,7 +243,7 @@ function App() {
           <div className="space-y-6">
             <GpaDisplay
               cgpa={cgpa}
-              totalCredits={totalCredits}
+              totalCredits={totalCredits + (parseInt(prevCredits) || 0)}
               semesters={semesters}
             />
             
@@ -214,6 +256,10 @@ function App() {
               onImportData={importData}
               setName={setName}
               setStudentId={setStudentId}
+              prevCgpa={prevCgpa}
+              prevCredits={prevCredits}
+              setPrevCgpa={setPrevCgpa}
+              setPrevCredits={setPrevCredits}
             />
           </div>
         </div>

@@ -13,8 +13,22 @@ export const calculateSemesterGPA = (courses: Course[]): number => {
   return totalCredits > 0 ? totalGradePoints / totalCredits : 0;
 };
 
-export const calculateCGPA = (courses: Course[]): number => {
-  return calculateSemesterGPA(courses);
+export const calculateCGPA = (
+  courses: Course[],
+  prevCgpa?: number,
+  prevCredits?: number
+): number => {
+  const totalGradePoints = courses.reduce((sum, course) => {
+    return sum + (GRADE_POINTS[course.grade] * course.creditHour);
+  }, 0);
+
+  const totalCredits = courses.reduce((sum, course) => sum + course.creditHour, 0);
+
+  const prevTotalGradePoints = (prevCgpa ?? 0) * (prevCredits ?? 0);
+  const combinedGradePoints = totalGradePoints + prevTotalGradePoints;
+  const combinedCredits = totalCredits + (prevCredits ?? 0);
+
+  return combinedCredits > 0 ? combinedGradePoints / combinedCredits : 0;
 };
 
 export const groupCoursesBySemester = (courses: Course[]): SemesterData[] => {

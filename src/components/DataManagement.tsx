@@ -11,6 +11,10 @@ interface DataManagementProps {
   onImportData: (courses: Course[]) => void;
   setName: (name: string) => void;
   setStudentId: (id: string) => void;
+  prevCgpa: string;
+  prevCredits: string;
+  setPrevCgpa: (value: string) => void;
+  setPrevCredits: (value: string) => void;
 }
 
 export const DataManagement: React.FC<DataManagementProps> = ({
@@ -22,6 +26,10 @@ export const DataManagement: React.FC<DataManagementProps> = ({
   onImportData,
   setName,
   setStudentId,
+  prevCgpa,
+  prevCredits,
+  setPrevCgpa,
+  setPrevCredits,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = React.useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -34,6 +42,8 @@ export const DataManagement: React.FC<DataManagementProps> = ({
       cgpa,
       totalCredits,
       semesters: [],
+      prevCgpa,
+      prevCredits,
     };
 
     const dataStr = JSON.stringify(academicData, null, 2);
@@ -89,6 +99,15 @@ export const DataManagement: React.FC<DataManagementProps> = ({
         if (jsonData.studentId) {
           setStudentId(jsonData.studentId);
           localStorage.setItem('nsu-cgpa-id', jsonData.studentId);
+        }
+
+        if (jsonData.prevCgpa) {
+          setPrevCgpa(jsonData.prevCgpa);
+          localStorage.setItem('nsu-cgpa-prev-cgpa', jsonData.prevCgpa);
+        }
+        if (jsonData.prevCredits) {
+          setPrevCredits(jsonData.prevCredits);
+          localStorage.setItem('nsu-cgpa-prev-credits', jsonData.prevCredits);
         }
 
         setMessage({ type: 'success', text: 'Data imported successfully!' });

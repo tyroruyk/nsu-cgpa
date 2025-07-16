@@ -24,4 +24,6 @@ export interface AcademicData {
   cgpa: number;
   totalCredits: number;
   semesters: SemesterData[];
+  prevCgpa?: string;
+  prevCredits?: string;
 }
