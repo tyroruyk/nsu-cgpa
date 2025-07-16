@@ -22,6 +22,7 @@ function App() {
   // Filter state
   const [filterYear, setFilterYear] = useState<string>('All');
   const [filterSemester, setFilterSemester] = useState<string>('All');
+  const [filterCourseName, setFilterCourseName] = useState<string>('');
   const [showGradingTable, setShowGradingTable] = useState(false);
 
   // Load data from localStorage on component mount
@@ -86,11 +87,12 @@ function App() {
   // Get unique years from courses for filter dropdown
   const years = Array.from(new Set(courses.map(c => c.year))).sort((a, b) => b - a);
 
-  // Filter courses based on year and semester
+  // Filter courses based on year, semester, and course name
   const filteredCourses = courses.filter(course => {
     const yearMatch = filterYear === 'All' || course.year === Number(filterYear);
     const semesterMatch = filterSemester === 'All' || course.semester === filterSemester;
-    return yearMatch && semesterMatch;
+    const courseNameMatch = filterCourseName === '' || course.name.toLowerCase().includes(filterCourseName.toLowerCase())
+    return yearMatch && semesterMatch && courseNameMatch;
   });
 
   return (
@@ -178,6 +180,16 @@ function App() {
                         <option key={sem} value={sem}>{sem}</option>
                       ))}
                     </select>
+                  </label>
+                  <label>
+                    <span className="text-sm text-gray-600 mr-1">Course:</span>
+                    <input
+                      type="text"
+                      className="border rounded px-2 py-1 text-sm w-32"
+                      placeholder="Search..."
+                      value={filterCourseName}
+                      onChange={e => setFilterCourseName(e.target.value)}
+                    />
                   </label>
                 </div>
               </div>

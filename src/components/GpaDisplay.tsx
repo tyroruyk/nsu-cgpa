@@ -95,30 +95,6 @@ export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, seme
               </div>
             ))}
           </div>
-
-          {/* GPA Trend Visualization */}
-          {semesters.length > 1 && (
-            <div className="mt-6 pt-4 border-t border-gray-200">
-              <h4 className="text-sm font-medium text-gray-700 mb-3">GPA Trend</h4>
-              <div className="flex items-end gap-2 h-20">
-                {semesters.map((semester, index) => (
-                  <div
-                    key={`${semester.year}-${semester.semester}`}
-                    className="flex-1 flex flex-col items-center"
-                  >
-                    <div
-                      className="w-full bg-blue-500 rounded-t transition-all duration-500 hover:bg-blue-600"
-                      style={{ height: `${(semester.gpa / 4.0) * 100}%` }}
-                      title={`${semester.semester} ${semester.year}: ${formatGPA(semester.gpa)}`}
-                    />
-                    <p className="text-xs text-gray-500 mt-1 text-center">
-                      {semester.semester.slice(0, 3)} {semester.year.toString().slice(-2)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
