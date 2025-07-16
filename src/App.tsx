@@ -17,15 +17,51 @@ function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [name, setName] = useState('');
   const [studentId, setStudentId] = useState('');
+  const [isDataLoaded, setIsDataLoaded] = useState(false); // Add this flag
+  
   // Filter state
   const [filterYear, setFilterYear] = useState<string>('All');
   const [filterSemester, setFilterSemester] = useState<string>('All');
   const [showGradingTable, setShowGradingTable] = useState(false);
 
-  // Save courses to localStorage whenever courses change
+  // Load data from localStorage on component mount
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
-  }, [courses]);
+    const savedCourses = localStorage.getItem(STORAGE_KEY);
+    const savedName = localStorage.getItem(STORAGE_NAME_KEY);
+    const savedId = localStorage.getItem(STORAGE_ID_KEY);
+
+    if (savedCourses) {
+      try {
+        setCourses(JSON.parse(savedCourses));
+      } catch (error) {
+        console.error('Failed to parse saved courses:', error);
+      }
+    }
+    if (savedName) setName(savedName);
+    if (savedId) setStudentId(savedId);
+    
+    setIsDataLoaded(true); // Mark data as loaded
+  }, []);
+
+  // Save courses to localStorage only after initial data is loaded
+  useEffect(() => {
+    if (isDataLoaded) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
+    }
+  }, [courses, isDataLoaded]);
+
+  // Save name and studentId to localStorage
+  useEffect(() => {
+    if (isDataLoaded) {
+      localStorage.setItem(STORAGE_NAME_KEY, name);
+    }
+  }, [name, isDataLoaded]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      localStorage.setItem(STORAGE_ID_KEY, studentId);
+    }
+  }, [studentId, isDataLoaded]);
 
   const addCourse = (courseData: Omit<Course, 'id'>) => {
     const newCourse: Course = {
@@ -56,30 +92,6 @@ function App() {
     const semesterMatch = filterSemester === 'All' || course.semester === filterSemester;
     return yearMatch && semesterMatch;
   });
-
-  useEffect(() => {
-    const savedCourses = localStorage.getItem(STORAGE_KEY);
-    const savedName = localStorage.getItem(STORAGE_NAME_KEY);
-    const savedId = localStorage.getItem(STORAGE_ID_KEY);
-
-    if (savedCourses) {
-      try {
-        setCourses(JSON.parse(savedCourses));
-      } catch (error) {
-        console.error('Failed to parse saved courses:', error);
-      }
-    }
-    if (savedName) setName(savedName);
-    if (savedId) setStudentId(savedId);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_NAME_KEY, name);
-  }, [name]);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_ID_KEY, studentId);
-  }, [studentId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50">
