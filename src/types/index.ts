@@ -17,6 +17,12 @@ export interface SemesterData {
   totalCredits: number;
 }
 
+export interface ProbationInfo {
+  stage: 0 | 1 | 2 | 3;
+  dismissed: boolean;
+  consecutiveCount: number;
+}
+
 export interface AcademicData {
   name: string;
   studentId: string;

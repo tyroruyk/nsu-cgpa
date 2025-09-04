@@ -5,7 +5,7 @@ import { CourseList } from './components/CourseList';
 import { DataManagement } from './components/DataManagement';
 import { GpaDisplay } from './components/GpaDisplay';
 import { Course } from './types';
-import { calculateCGPA, groupCoursesBySemester } from './utils/calculations';
+import { calculateCGPA, computeProbationStage, groupCoursesBySemester } from './utils/calculations';
 
 import { SEMESTERS } from './utils/gradeSystem';
 
@@ -100,6 +100,7 @@ function App() {
   const cgpa = calculateCGPA(courses, Number(prevCgpa), Number(prevCredits));
   const totalCredits = courses.reduce((sum, course) => sum + course.creditHour, 0);
   const semesters = groupCoursesBySemester(courses);
+  const probation = computeProbationStage(semesters, cgpa, prevCgpa ? Number(prevCgpa) : undefined);
 
   // Get unique years from courses for filter dropdown
   const years = Array.from(new Set(courses.map(c => c.year))).sort((a, b) => b - a);
@@ -245,6 +246,7 @@ function App() {
               cgpa={cgpa}
               totalCredits={totalCredits + (parseInt(prevCredits) || 0)}
               semesters={semesters}
+              probation={probation}
             />
             
             <DataManagement

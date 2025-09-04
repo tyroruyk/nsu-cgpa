@@ -66,3 +66,42 @@ export const groupCoursesBySemester = (courses: Course[]): SemesterData[] => {
 export const formatGPA = (gpa: number): string => {
   return gpa.toFixed(2);
 };
+
+export const computeProbationStage = (
+  semesters: SemesterData[],
+  overallCgpa: number,
+  prevCgpa?: number
+): { stage: 0 | 1 | 2 | 3; dismissed: boolean; consecutiveCount: number } => {
+
+  if (overallCgpa >= 2) return { stage: 0, dismissed: false, consecutiveCount: 0 };
+
+  if (semesters.length === 0 && (prevCgpa === undefined || isNaN(prevCgpa)) && overallCgpa === 0) {
+    return { stage: 0, dismissed: false, consecutiveCount: 0 };
+  }
+
+  let count = 0;
+
+  if (prevCgpa !== undefined && prevCgpa < 2) {
+    count = 1;
+  }
+
+  for (let i = semesters.length - 1; i >= 0; i--) {
+    const s = semesters[i];
+    if (s.gpa < 2) {
+      count += 1;
+    } else {
+      break;
+    }
+  }
+
+  if (count === 0) count = 1;
+
+  const dismissed = count > 3;
+  
+  const rawStage = dismissed ? 3 : Math.min(count, 3);
+  const stage = (rawStage === 0 || rawStage === 1 || rawStage === 2 || rawStage === 3)
+    ? (rawStage as 0 | 1 | 2 | 3)
+    : 0;
+
+  return { stage, dismissed, consecutiveCount: count };
+};

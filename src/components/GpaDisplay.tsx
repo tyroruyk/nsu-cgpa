@@ -1,13 +1,16 @@
+import { Award, BookOpen, TrendingUp } from 'lucide-react';
 import React from 'react';
-import { TrendingUp, Award, BookOpen } from 'lucide-react';
 import { SemesterData } from '../types';
 import { formatGPA } from '../utils/calculations';
 import { getGPAColor } from '../utils/gradeSystem';
+
+import { ProbationInfo } from '../types';
 
 interface GpaDisplayProps {
   cgpa: number;
   totalCredits: number;
   semesters: SemesterData[];
+  probation?: ProbationInfo;
 }
 
 const getGpaCommentStyle = (cgpa: number) => {
@@ -19,7 +22,19 @@ const getGpaCommentStyle = (cgpa: number) => {
   return 'from-emerald-500 to-emerald-700';
 };
 
-export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, semesters }) => {
+export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, semesters, probation }) => {
+  const getShortStatus = () => {
+  const isNoData = semesters.length === 0 && cgpa === 0;
+  if (isNoData) return null;
+    if (!probation || probation.stage === 0) return null;
+    if (probation.dismissed) return `Probation ${probation.stage} • At risk of dismissal`;
+    if (probation.stage === 1) return `Probation 1 • Automatic advising`;
+    if (probation.stage === 2) return `Probation 2 • Yellow undertaking`;
+    if (probation.stage === 3) return `Probation 3 • Parent meeting required`;
+    return `Probation ${probation.stage}`;
+  };
+  const shortStatus = getShortStatus();
+
   return (
     <div className="space-y-6">
       {/* Overall CGPA */}
@@ -47,21 +62,73 @@ export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, seme
       <div
         className={`bg-gradient-to-r ${getGpaCommentStyle(cgpa)} text-white p-4 rounded-lg shadow-md`}
       >
-        <p className="text-sm font-medium">
-          {semesters.length === 0 && cgpa === 0 ? (
-            <span>No GPA recorded yet. Start your academic journey!</span>
-          ) : cgpa < 2 ? (
-            <span>⚠️ On Probation – You need to improve your GPA to avoid academic penalties.</span>
-          ) : cgpa < 2.5 ? (
-            <span>Needs Improvement – Consider focusing more on core subjects.</span>
-          ) : cgpa < 3 ? (
-            <span>Fair – You're doing okay, but there's room to grow.</span>
-          ) : cgpa < 3.5 ? (
-            <span>Good – Keep up the steady performance!</span>
-          ) : (
-            <span>🎉 Excellent – Great academic standing!</span>
+        <div className="flex items-start justify-between">
+          <p className="text-sm font-medium">
+            {semesters.length === 0 && cgpa === 0 ? (
+                <span>No GPA recorded yet. Start your academic journey!</span>
+              ) : shortStatus ? (
+                <span>⚠️ {shortStatus} — You need to improve your GPA to avoid academic penalties.</span>
+              ) : cgpa < 2.5 ? (
+                <span>Needs Improvement – Consider focusing more on core subjects.</span>
+              ) : cgpa < 3 ? (
+                <span>Fair – You're doing okay, but there's room to grow.</span>
+              ) : cgpa < 3.5 ? (
+                <span>Good – Keep up the steady performance!</span>
+              ) : (
+                <span>🎉 Excellent – Great academic standing!</span>
+              )}
+          </p>
+
+          {/* Probation badge (hidden when there's no data) */}
+          {! (semesters.length === 0 && cgpa === 0) && probation && probation.stage > 0 && (
+            <div className="text-right ml-4">
+              <div className="text-xs font-semibold">Probation Stage</div>
+              <div className="mt-1 inline-block px-2 py-1 rounded-full bg-white/20">
+                <span className="font-bold">P{probation.stage}</span>
+              </div>
+              {probation.dismissed && (
+                <div className="text-xs mt-1 text-red-100">At risk of dismissal</div>
+              )}
+            </div>
           )}
-        </p>
+        </div>
+
+  {/* Detailed advising text for probation stages (hidden when there's no data) */}
+  {! (semesters.length === 0 && cgpa === 0) && probation && probation.stage > 0 && (
+          <div className="mt-3 text-xs bg-white/10 p-3 rounded">
+            {probation.stage === 1 && (
+              <div>
+                <div className="font-semibold">Probation 1 — First Warning</div>
+                <ul className="list-disc pl-5 mt-1">
+                  <li>No parent meeting is required.</li>
+                  <li>Automatic advising will be provided by the department.</li>
+                  <li>Focus on improving this semester's GPA to reach 2.00.</li>
+                </ul>
+              </div>
+            )}
+            {probation.stage === 2 && (
+              <div>
+                <div className="font-semibold">Probation 2 — Second Warning</div>
+                <ul className="list-disc pl-5 mt-1">
+                  <li>Student signs a yellow undertaking.</li>
+                  <li>Self-advising is allowed but requires Chair approval.</li>
+                  <li>Follow a clear plan to raise CGPA to 2.00 within the allowed semesters.</li>
+                </ul>
+              </div>
+            )}
+            {probation.stage === 3 && (
+              <div>
+                <div className="font-semibold">Probation 3 — Final Warning</div>
+                <ul className="list-disc pl-5 mt-1">
+                  <li>Parent must attend a meeting with the department.</li>
+                  <li>Student signs a light red undertaking.</li>
+                  <li>Self-advising is allowed but requires Chair approval.</li>
+                  <li>Failure to raise CGPA to 2.00 within three semesters may lead to dismissal.</li>
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Semester Breakdown */}
@@ -73,7 +140,7 @@ export const GpaDisplay: React.FC<GpaDisplayProps> = ({ cgpa, totalCredits, seme
           </div>
           
           <div className="space-y-3">
-            {semesters.map((semester, index) => (
+            {semesters.map((semester) => (
               <div
                 key={`${semester.year}-${semester.semester}`}
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
